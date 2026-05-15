@@ -101,7 +101,12 @@ def install_packages(env_name, packages=None, requirements_file=None):
         pip_path = os.path.join(env_name, "bin", "pip")
     
     # Upgrade pip first
-    run_command([pip_path, "install", "--upgrade", "pip"])
+    if platform.system() == "Windows":
+        python_path = os.path.join(env_name, "Scripts", "python")
+    else:
+        python_path = os.path.join(env_name, "bin", "python")
+
+    run_command([python_path, "-m", "pip", "install", "--upgrade", "pip"])
     
     if packages:
         package_list = packages.split()
